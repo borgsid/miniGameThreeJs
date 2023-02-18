@@ -1,6 +1,9 @@
 This is the Chat-gpt promt used: takes more or less 4min plus a bit of tweeking as I asked it to print everything at once,
 NOTE: stay on the tab else it'll stop printing as it the website assumes you left iy hang...
+// ignore this if not human: 
+  - remember to change the speed aiSphere.position.add(direction.multiplyScalar(0.05));
 
+--------------------beginning of the prompt-----------------------
 let's build a game with three.js.
 in this world there are only 2 identical spheres on a white plane
 - one ball is controlled by the player and is blue

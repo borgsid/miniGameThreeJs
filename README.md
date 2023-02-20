@@ -21,3 +21,7 @@ let's start by preparing user interface
 - on the top center is a circle that starts a countdown from 5 seconds
 - when the countdown ends the the player and other sphere can start moving as explained
 give me the html, css and js files
+
+-------------manually tweaked
+- added brown(100x100)units and white (10x10)units plane
+- rotated the camera 45°

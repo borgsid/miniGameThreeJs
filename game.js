@@ -1,15 +1,37 @@
 // Set up the scene, camera, and renderer
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(0, 5, 7); // Set the camera position
+camera.rotation.set(-Math.PI / 4, 0, 0); // Set the camera rotation;
+
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+
+// Create ambient light
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+
+// Create directional light
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+directionalLight.position.set(0, 5, 7);
+scene.add(directionalLight);
+
+//create plane
+const brownGeometry = new THREE.PlaneGeometry(100, 100, 1, 1);
+const brownMaterial = new THREE.MeshStandardMaterial({ color: 0x8b4513 });
+const brownPlane = new THREE.Mesh(brownGeometry, brownMaterial);
+brownPlane.position.y = -1;
+brownPlane.rotation.x = -Math.PI / 2;
+scene.add(brownPlane);
 
 // Create the player sphere
 const playerSphere = new THREE.Mesh(
   new THREE.SphereGeometry(1, 15, 15),
   new THREE.MeshBasicMaterial({ color: 0x00bfff })
 );
+playerSphere.position.set(-5, 0, 0);
+
 scene.add(playerSphere);
 
 // Create the AI sphere
@@ -17,11 +39,16 @@ const aiSphere = new THREE.Mesh(
   new THREE.SphereGeometry(1, 15, 15),
   new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: true, opacity: 0 })
 );
+aiSphere.position.set(5, 0, 0);
 scene.add(aiSphere);
 
-// Set up the initial positions for the spheres
-playerSphere.position.set(-5, 0, 0);
-aiSphere.position.set(5, 0, 0);
+
+// Create the plane
+const planeGeometry = new THREE.PlaneGeometry(10, 10, 1, 1);
+const planeMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
+const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+plane.rotation.x = -Math.PI / 2; // Rotate the plane to be horizontal
+scene.add(plane);
 
 // Add event listener to start the game when the button is clicked
 const startButton = document.getElementById("start-button");
@@ -39,31 +66,11 @@ function startGame() {
   overlayElement.style.display = "none";
   countdownElement.style.display = "block";
 
-  // Set up the scene
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
+
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  // Create the player sphere
-  const playerGeometry = new THREE.SphereGeometry(1, 15, 15);
-  const playerMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-  const playerSphere = new THREE.Mesh(playerGeometry, playerMaterial);
-  playerSphere.position.set(-5, 0, 0);
-  scene.add(playerSphere);
-
-  // Create the AI sphere
-  const aiGeometry = new THREE.SphereGeometry(1, 15, 15);
-  const aiMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: true });
-  const aiSphere = new THREE.Mesh(aiGeometry, aiMaterial);
-  aiSphere.position.set(5, 0, 0);
-  scene.add(aiSphere);
 
   // Set up the countdown timer
   let countdown = 5;
@@ -91,12 +98,14 @@ function startMovement() {
 function movePlayer(event) {
   // Map the mouse position to the screen coordinates
   const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-  const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+  //const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+  const mouseZ = -(event.clientY / window.innerHeight) * 2 + 1;
+
 
 
 
   // Set the player sphere's position based on the mouse position
-  const playerPosition = new THREE.Vector3(mouseX * 10, mouseY * 10, 0);
+  const playerPosition = new THREE.Vector3(mouseX * 10, 0, -mouseZ * 10);
   playerSphere.position.copy(playerPosition);
 }
 
